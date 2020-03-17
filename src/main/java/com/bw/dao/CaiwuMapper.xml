@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bw.dao.CaiwuMapper">
+  <resultMap type="CaiWu" id="caiwuMap">
+  	<id property="id" column="id"/>
+  	<result property="fudate" column="fudate"/>
+  	<result property="funum" column="funum"/>
+  	<result property="futype" column="futype"/>
+  	<result property="funame" column="funame"/>
+  	<result property="com" column="com"/>
+  	<result property="dingdan" column="dingdan"/>
+  	<result property="tid" column="tid"/>
+  	<result property="fudanwei" column="fudanwei"/>
+  	<result property="fukaihu" column="fukaihu"/>
+  	<result property="zh" column="zh"/>
+  	<result property="jscom" column="jscom"/>
+  	<result property="jsren" column="jsren"/>
+  	<result property="fushiyou" column="fushiyou"/>
+  	<result property="jine" column="jine"/>
+  	<result property="fupic" column="fupic"/>
+  	<result property="beizhu" column="beizhu"/>
+  	<association property="cmsAtype" javaType="CmsAtype">
+     <id column="id" property="id"/>
+      <result column="name" property="name"/>
+   </association>
+  </resultMap>
+  <select id="select" resultMap="caiwuMap">
+ 	select * from caiwu c LEFT JOIN cmsa_type t ON(c.tid=t.id) where c.id=#{id}
+ 	</select>
+ <select id="selects" resultMap="caiwuMap">
+ 	select * from caiwu c LEFT JOIN cmsa_type t ON(c.tid=t.id)
+ 	<where>
+ 		<if test="funum!=null and funum!='' ">
+ 			and funum like concat('%',#{funum},'%')
+ 		</if>
+ 		<if test="futype!=null and futype!='' ">
+ 			and futype =#{futype}
+ 		</if>
+ 		<if test="funame!=null and funame!='' ">
+ 			and funame like concat('%',#{funame},'%')
+ 		</if>
+ 		
+ 		<if test="com!=null and com!='' ">
+ 			and com like concat('%',#{com},'%')
+ 		</if>
+ 		
+ 		<if test="dingdan!=null and dingdan!='' ">
+ 			and dingdan like concat('%',#{dingdan},'%')
+ 		</if>
+ 		
+ 		<if test="fudanwei!=null and fudanwei!='' ">
+ 			and fudanwei like concat('%',#{fudanwei},'%')
+ 		</if>
+ 		
+ 		<if test="fukaihu!=null and fukaihu!='' ">
+ 			and fukaihu like concat('%',#{fukaihu},'%')
+ 		</if>
+ 		
+ 		<if test="zh!=null and zh!='' ">
+ 			and zh like concat('%',#{zh},'%')
+ 		</if>
+ 		
+ 		
+ 		<if test="jscom!=null and jscom!='' ">
+ 			and jscom like concat('%',#{jscom},'%')
+ 		</if>
+ 		
+ 		<if test="jsren!=null and jsren!='' ">
+ 			and jsren like concat('%',#{jsren},'%')
+ 		</if>
+ 		
+ 		<if test="fushiyou!=null and fushiyou!='' ">
+ 			and fushiyou like concat('%',#{fushiyou},'%')
+ 		</if>
+ 		
+ 		<if test="jine!=null and jine!='' ">
+ 			and jine=#{jine}
+ 		</if>
+ 		
+ 		<if test="beizhu!=null and beizhu!='' ">
+ 			and beizhu like concat('%',#{beizhu},'%')
+ 		</if>
+ 		
+ 		<!-- <if test="date1!=null and date1!='' ">
+ 			and fudate &gt;=#{date1}
+ 		</if>
+ 		<if test="date2!=null and date2!='' ">
+ 			and fudate &gt;=#{date2}
+ 		</if> -->
+ 	</where>
+ </select>
+  <select id="selectt" resultType="CmsAtype">
+ 	select * from cmsa_type 
+   </select>
+	<insert id="add">
+	insert into caiwu(funum,futype,funame,com,dingdan,tid,fudate,fudanwei,fukaihu,zh,jscom,jsren,fushiyou,jine,beizhu) 
+	value(#{funum},#{futype},#{funame},#{com},#{dingdan},#{tid},#{fudate},#{fudanwei},#{fukaihu},#{zh},#{jscom},#{jsren},#{fushiyou},#{jine},#{beizhu})
+	</insert>
+	<update id="upd">
+		update caiwu set funum=#{funum},futype=#{futype},funame=#{funame},com=#{com},dingdan=#{dingdan},tid=#{tid},fudate=#{fudate},fudanwei=#{fudanwei},fukaihu=#{fukaihu},zh=#{zh},
+		jscom=#{jscom},jsren=#{jsren},fushiyou=#{fushiyou},jine=#{jine},beizhu=#{beizhu}
+		where id=${id}
+	</update>
+</mapper>
